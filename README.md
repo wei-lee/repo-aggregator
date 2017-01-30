@@ -4,12 +4,13 @@ A small tool to download and zip all the repos belong to a user's organizations 
 
 ## Usage
 
-Clone this repo and add a new file called keys.js, with the following content:
+1. create a personal access token first on Github. Make sure it will have the permission to read the user's organizations, and repos.
+
+2. Clone this repo and add a new file called keys.js, with the following content:
 
 ```js
 module.exports = {
-  username: <replace with your username>,
-  password: <replace with your password>
+  token: <replace with your personal access token>
 }
 ```
 

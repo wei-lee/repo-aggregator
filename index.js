@@ -19,41 +19,11 @@ if(!fs.existsSync(DIR_NAME)){
 }
 
 var getOAuthToken = function(cb){
-  var userInfo = auth;
-  userInfo.type = 'basic';
-  github.authenticate(userInfo);
-  github.authorization.getAll({}, function(err, authorizations){
-    if(err){
-      return cb(err);
-    }
-    var token = _.filter(authorizations, {'note':'read repo info'});
-    var oauthToken = null;
-    if(token && token.length === 1){
-      oauthToken = token[0].token;
-      github.authenticate({
-        type:'oauth',
-        token:oauthToken
-      });
-      return cb(null, oauthToken);
-    } else {
-      github.authorization.create({
-        scopes:["repo"],
-        note:'read repo info'
-      }, function(err, res){
-        if(err){
-          return cb(err);
-        }
-        if(res.token){
-          oauthToken = res.token;
-          github.authenticate({
-            type:'oauth',
-            token:oauthToken
-          });
-          return cb(null, oauthToken);
-        }
-      });
-    }
+  github.authenticate({
+    type: 'token',
+    token: auth.token
   });
+  return cb(null, auth.token);
 }
 
 var getOrgs = function(cb){
